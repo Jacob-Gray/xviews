@@ -18,7 +18,6 @@
 			margin: 0;
 			background: #222021;
 			color: white;
-
 			font-family: sans-serif;
 		}
 
@@ -32,13 +31,11 @@
 		}
 
 		.author {
-			color: white;
+			color: gold;
 			font-size: 12px;
 			padding: 5px 10px;
-			text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-
-			background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
 			border-radius: 3px;
+			background: rgba(0, 0, 0, 0.1)
 		}
 
 		ul {
@@ -80,7 +77,37 @@
 		}
 
 		p {
-			color: rgba(255, 255, 255, 0.5)
+			color: rgba(255, 255, 255, 0.5);
+			flex-grow: 1;
+		}
+
+		.tags {
+			flex-shrink: 0;
+		}
+
+		.tag {
+			/* border: 1px solid rgba(255, 255, 255, 0.1); */
+			padding: 4px 10px;
+			margin: 0 2px;
+			border-radius: 2px;
+			font-size: 12px;
+		}
+
+		.tag-0 {
+			background-image: linear-gradient(to top left, #667eea 0%, #764ba2 100%);
+		}
+
+		.tag-1 {
+			background-image: linear-gradient(to top left, #fbc2eb 0%, #a6c1ee 100%);
+		}
+
+		.tag-2 {
+			background-image: linear-gradient(to bottom right, #4facfe 0%, #00f2fe 100%);
+		}
+
+		.data {
+			display: flex;
+			align-items: center;
 		}
 	</style>
 </head>
@@ -99,7 +126,12 @@
 				<h3 class="headline">${title} -
 					<span class="author">by ${author}</span>
 				</h3>
-				<p>${desc}</p>
+				<div class="data">
+					<p>${desc}</p>
+					<div class="tags">
+						<span x-foreach="tags" class="tag tag-${i}">${base}</span>
+					</div>
+				</div>
 			</li>
 		</ul>
 
@@ -110,25 +142,35 @@
 	<script>
 		// Some amazing test data to render the list with
 		var testData = [{
-			title: "Leroy found dead",
+			title: "Leeroy found dead",
 			desc: "Mr Jenkins collapsed after what can only be described as an aggressive attempt at self destruction. It would appear that he was successful.",
-			author: "Batman"
+			author: "Batman",
+			tags: ["Leeroy", "Urgent", "News"]
 		}, {
 			title: "I have no fingers",
 			desc: "So how am I typing this?",
-			author: "Fingerless Jack"
+			author: "Fingerless Jack",
+			tags: ["Lifestyle", "Health", "Medical"]
 		}, {
 			title: "Where are my eyes?",
 			desc: "I cannot see.",
-			author: "Jacob"
+			author: "Jacob",
+			tags: ["Lifestyle", "Health", "Medical"]
 		}, {
-			title: "184753 Chicken recipies",
+			title: "184753 Chicken recipes",
 			desc: "EVERYTHING DOES TASTE LIKE CHICKEN.",
-			author: "Jacob"
+			author: "Jacob",
+			tags: ["Recipes", "Cooking", "Chicken"]
 		}, {
 			title: "XViews is the best thing since sliced bread",
 			desc: "And I hate sliced bread.",
-			author: "Mr Magoo"
+			author: "Mr Magoo",
+			tags: ["XViews", "Opinion"]
+		}, {
+			title: "Facebook is stealing your soul...",
+			desc: "And you won't believe where they put it!",
+			author: "F. Aken Ews",
+			tags: ["News", "Culture", "Internet"]
 		}];
 
 		// Create a new view

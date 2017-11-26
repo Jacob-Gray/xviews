@@ -34,7 +34,7 @@ function XElement(options) {
 	/**
 	 * Check that this element should build
 	 */
-	if (this.el || this.noBuild) this.build();
+	if (this.el && !this.noBuild) this.build();
 }
 
 /**
@@ -48,7 +48,7 @@ XElement.prototype.renderString = function (template, data) {
 
 		if (typeof i === "number") {
 
-			if (data && data[template.vars[i]]) {
+			if (data && data[template.vars[i]] !== undefined) {
 
 				var variable = data[template.vars[i]];
 
@@ -149,7 +149,6 @@ XElement.prototype.build = function () {
 		}.bind(this))
 	}.bind(this));
 }
-
 XElement.prototype.variablePosition = function (str) {
 
 	var varMatch = /\${([^}]*)}/g,
@@ -287,7 +286,8 @@ XElement.prototype.copy = function (options) {
 	}.bind(this));
 
 	Array.prototype.forEach.call(this.el.childNodes, function (child) {
-		if (!child.XElement) copy.appendChild(child);
+
+		if (!child.XElement) copy.el.appendChild(child);
 		else {
 
 			child = child.XElement;
@@ -303,6 +303,8 @@ XElement.prototype.copy = function (options) {
 					el: child.el.cloneNode(),
 					render: child.render
 				}
+
+				cpy.el.XElement = cpy;
 			}
 
 			copy.el.appendChild(cpy.el);

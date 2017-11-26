@@ -25,6 +25,12 @@ XElement.prototype.extend.foreach = function () {
 
 			data.forEach(function (d, i) {
 
+				if (typeof d !== "object") d = {
+					base: d
+				};
+
+				d.i = i;
+
 				if (i > 0) {
 
 					var copy = xel.copy({
@@ -98,9 +104,6 @@ XElement.prototype.extend.show = function () {
 		if ((!data && !this.inverse) || (data && this.inverse && data.length)) xel.view.temporarilyRemoveElement(xel.el, this.scope[0]);
 	}
 };
-
-
-
 
 XElement.prototype.extend.value = function () {
 

@@ -18,22 +18,6 @@ function View(el) {
 
 	this._renderVersion = 0;
 
-	// this.func = {
-	// 	scope: function (el, val) {
-	// 		var output = data;
-
-	// 		el.scope = val.split(/\.|\[|\]/g).filter(function (item) {
-	// 			return item.length;
-	// 		});
-
-	// 		el.scope.some(function (lvl) {
-	// 			return output[lvl] ? !(output = output[lvl]) : true;
-	// 		});
-
-	// 		return output;
-	// 	}
-	// };
-
 	this.build();
 }
 

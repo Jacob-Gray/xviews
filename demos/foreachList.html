@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>XView.js - Demo/foreachList</title>
+
+	<!-- Import basic uncompressed library files -->
+	<script src="../js/XElement.js"></script>
+	<script src="../js/XView.js"></script>
+
+	<!-- Import uncompressed pre-made function pack -->
+	<script src="../js/XFunctions.js"></script>
+
+	<!-- Throw in a few styles -->
+	<style>
+		body,
+		html {
+			margin: 0;
+			background: #222021;
+			color: white;
+			font-family: sans-serif;
+		}
+	</style>
+</head>
+
+<body>
+	<p>Top names in the US:</p>
+	<ul class="template">
+		<li x-foreach="list">
+			${desc}
+			<ol>
+				<li x-foreach="names">${base}</li>
+			</ol>
+		</li>
+	</ul>
+
+	<!-- Custom JS that makes the magic happen -->
+	<script>
+		// Some amazing test data to render the list with
+		var testData = [{
+			names: ["Noah", "Liam", "Mason", "Jacob", "William"],
+			desc: "Men's names"
+		}, {
+			names: ["Emma", "Olivia", "Sophia", "Ava", "Isabella"],
+			desc: "Women's names"
+		}];
+
+		// Create a new view
+		var view = new View(".template");
+
+		// Render the test data into the view
+		view.render({
+			list: testData
+		});
+	</script>
+</body>
+
+</html>
