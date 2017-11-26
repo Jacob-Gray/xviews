@@ -4,18 +4,32 @@ XElement.prototype.extend.foreach = function () {
 
 		xel.noLink = true;
 
-		xel.useVar(group);
+
+		var currentParent = xel.parent,
+			forEachParent;
+
+		while (currentParent) {
+			if (currentParent.funcs.foreach) forEachParent = currentParent;
+			currentParent = currentParent.parent;
+		}
+
+		if (forEachParent) this.forEachParent = forEachParent.funcs.foreach.fn;
+		else {
+			xel.useVar(group);
+		}
 	}
 
 	this.render = function (group, xel) {
 
-		var data;
+		var renderGroup = group;
 
-		if (group.length) data = xel.data[group];
-		else data = xel.data;
+		if (this.forEachParent) renderGroup = this.forEachParent.group;
+		else this.group = group;
+
+		var data = xel.data[group];
 
 		if (!data || !data.length) {
-			xel.view.temporarilyRemoveElement(xel.el, group);
+			xel.view.temporarilyRemoveElement(xel.el, renderGroup);
 		} else {
 
 			if (data.constructor !== Array) return console.warn("x-foreach expects an array @", xel.el);
@@ -41,11 +55,11 @@ XElement.prototype.extend.foreach = function () {
 
 					var el = copy.render(d);
 
-					xel.view.setTemporaryElement(el, group);
+					xel.view.setTemporaryElement(el, renderGroup);
 
 					parent.insertBefore(el, next);
 				} else xel.data = d;
-			});
+			}.bind(this));
 		}
 	}
 };
