@@ -12,10 +12,12 @@ function XElement(options) {
 	this.funcData = {};
 	this._renderVersion = -1;
 
+	console.log(options)
+
 	/**
-	 * Make sure that the view is set if it's going to try and build
+	 * Make sure that the XView is set if it's going to try and build
 	 */
-	if (options.el && !options.view && !this.noBuild) throw new Error("XElement requires a view to be set if it's going to attempt to build");
+	if (options.el && !options.XView && !this.noBuild) throw new Error("XElement requires a XView to be set if it's going to attempt to build");
 
 	/**
 	 * Loop through the options and add the key value pairs to the XElement
@@ -108,7 +110,7 @@ XElement.prototype.build = function () {
 		if (!(node instanceof Text)) {
 
 			var child = new XElement({
-				view: this.view,
+				XView: this.XView,
 				el: node,
 				parent: this
 			});
@@ -137,11 +139,11 @@ XElement.prototype.build = function () {
 
 				this.vars.push(varName);
 
-				if (this.view) {
+				if (this.XView) {
 
-					this.view.usesVars[varName] = this.view.usesVars[varName] || [];
+					this.XView.usesVars[varName] = this.XView.usesVars[varName] || [];
 
-					this.view.usesVars[varName].push(this);
+					this.XView.usesVars[varName].push(this);
 				}
 			}
 
@@ -234,11 +236,11 @@ XElement.prototype.useVar = function (varName) {
 
 		this.vars.push(varName);
 
-		this.view.usesVars[varName] = this.view.usesVars[varName] || [];
+		this.XView.usesVars[varName] = this.XView.usesVars[varName] || [];
 
-		if (this.view && this.view.usesVars[varName].indexOf(this) < 0) {
+		if (this.XView && this.XView.usesVars[varName].indexOf(this) < 0) {
 
-			this.view.usesVars[varName].push(this);
+			this.XView.usesVars[varName].push(this);
 		}
 	}
 	if (this.parent && this.parent.vars.indexOf(varName) < 0) this.parent.vars.push(varName);
@@ -267,7 +269,7 @@ XElement.prototype.copy = function (options) {
 	}
 
 	var defaults = {
-		view: this.view,
+		XView: this.XView,
 		el: this.el.cloneNode(),
 		noBuild: true
 	};

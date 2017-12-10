@@ -1,9 +1,12 @@
 var gulp = require('gulp'),
     concat = require('gulp-concat'),
     rename = require('gulp-rename'),
+    watch = require('gulp-watch'),
     uglify = require('gulp-uglify');
 
-gulp.task('default', function () {
+function compile() {
+
+    console.log("Compiling JS files...");
 
     // Generate full unzipped file
     var fullLibrary = gulp.src("./js/**.js");
@@ -21,5 +24,12 @@ gulp.task('default', function () {
         .pipe(gulp.dest('./lib'))
         .pipe(rename('xview.engine.min.js'))
         .pipe(uglify())
-        .pipe(gulp.dest('./lib'))
+        .pipe(gulp.dest('./lib'));
+}
+
+gulp.task('default', function () {
+
+    compile();
+
+    return watch('./js/*.js', compile);
 });

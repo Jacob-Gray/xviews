@@ -4,12 +4,8 @@
 <head>
 	<title>XView.js - Demo/foreachList</title>
 
-	<!-- Import basic uncompressed library files -->
-	<script src="../js/XElement.js"></script>
-	<script src="../js/XView.js"></script>
-
-	<!-- Import uncompressed pre-made function pack -->
-	<script src="../js/XFunctions.js"></script>
+	<!-- Import library -->
+	<script src="../lib/xview.full.js"></script>
 
 	<!-- Throw in a few styles -->
 	<style>
@@ -46,7 +42,7 @@
 		}];
 
 		// Create a new view
-		var view = new View(".template");
+		var view = new XView(".template");
 
 		// Render the test data into the view
 		view.render({

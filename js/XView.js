@@ -1,4 +1,4 @@
-function View(el) {
+function XView(el) {
 
 	var self = this;
 
@@ -21,7 +21,7 @@ function View(el) {
 	this.build();
 }
 
-View.prototype.find = function (selector) {
+XView.prototype.find = function (selector) {
 
 	var output = [],
 		res = this.el.querySelector(selector);
@@ -29,7 +29,7 @@ View.prototype.find = function (selector) {
 	return res.XElement;
 };
 
-View.prototype.render = function (data) {
+XView.prototype.render = function (data) {
 
 	this.data = data || this.data;
 
@@ -58,7 +58,7 @@ View.prototype.render = function (data) {
 	this._renderVersion++;
 }
 
-View.prototype.renderVariable = function (item) {
+XView.prototype.renderVariable = function (item) {
 
 	if (this.tempEls.add[item]) {
 
@@ -90,15 +90,15 @@ View.prototype.renderVariable = function (item) {
 	}.bind(this));
 }
 
-View.prototype.build = function () {
+XView.prototype.build = function () {
 
 	this._structure = new XElement({
-		view: this,
+		XView: this,
 		el: this.el
 	});
 }
 
-View.prototype.set = function (key, value) {
+XView.prototype.set = function (key, value) {
 
 	function cloneItem(obj) {
 		if (typeof obj !== "object" || Array.isArray(obj)) return obj;
@@ -127,14 +127,14 @@ View.prototype.set = function (key, value) {
 	}.bind(this));
 }
 
-View.prototype.setTemporaryElement = function (el, variable) {
+XView.prototype.setTemporaryElement = function (el, variable) {
 
 	this.tempEls.add[variable] = this.tempEls.add[variable] || [];
 
 	if (this.tempEls.add[variable].indexOf(el) < 0) this.tempEls.add[variable].push(el);
 }
 
-View.prototype.temporarilyRemoveElement = function (el, variable) {
+XView.prototype.temporarilyRemoveElement = function (el, variable) {
 
 	if (el.XElement && el.XElement.hide instanceof Function) el.XElement.hide(el.XElement);
 	else {
@@ -152,7 +152,7 @@ View.prototype.temporarilyRemoveElement = function (el, variable) {
 	}
 }
 
-View.prototype.watch = function (variable, fn) {
+XView.prototype.watch = function (variable, fn) {
 
 	this.watching[variable] = this.watching[variable] || [];
 

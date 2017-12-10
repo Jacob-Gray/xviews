@@ -29,7 +29,7 @@ XElement.prototype.extend.foreach = function () {
 		var data = xel.data[group];
 
 		if (!data || !data.length) {
-			xel.view.temporarilyRemoveElement(xel.el, renderGroup);
+			xel.XView.temporarilyRemoveElement(xel.el, renderGroup);
 		} else {
 
 			if (data.constructor !== Array) return console.warn("x-foreach expects an array @", xel.el);
@@ -55,7 +55,7 @@ XElement.prototype.extend.foreach = function () {
 
 					var el = copy.render(d);
 
-					xel.view.setTemporaryElement(el, renderGroup);
+					xel.XView.setTemporaryElement(el, renderGroup);
 
 					parent.insertBefore(el, next);
 				} else xel.data = d;
@@ -67,9 +67,9 @@ XElement.prototype.extend.foreach = function () {
 XElement.prototype.extend.id = function () {
 	this.build = function (group, xel) {
 
-		xel.view.ids = xel.view.ids || {};
+		xel.XView.ids = xel.XView.ids || {};
 
-		xel.view.ids[group] = xel;
+		xel.XView.ids[group] = xel;
 	}
 };
 
@@ -115,7 +115,7 @@ XElement.prototype.extend.show = function () {
 
 		data = data instanceof Function ? data.call(xel.data, xel) : data;
 
-		if ((!data && !this.inverse) || (data && this.inverse && data.length)) xel.view.temporarilyRemoveElement(xel.el, this.scope[0]);
+		if ((!data && !this.inverse) || (data && this.inverse && data.length)) xel.XView.temporarilyRemoveElement(xel.el, this.scope[0]);
 	}
 };
 
@@ -126,7 +126,7 @@ XElement.prototype.extend.value = function () {
 
 		xel.el.onchange = xel.el.onkeyup = function () {
 
-			xel.view.set(group, xel.el.value);
+			xel.XView.set(group, xel.el.value);
 		}
 	}
 
