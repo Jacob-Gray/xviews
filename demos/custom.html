@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>XView.js - Demo/foreachList</title>
+
+	<!-- Import library -->
+	<script src="../lib/xview.full.js"></script>
+
+	<link rel="stylesheet" href="./demos.css">
+</head>
+
+<body>
+	<section>
+		<p>
+			This demonstrates how to create a simple custom function. Check the source for the code and explaination. In this demo we
+			create a custom function to set the value of a view variable depending on if the checkbox is checked. Click the checkbox
+			to see it in action.
+		</p>
+	</section>
+	<main class="demo-area">
+		<div class="template">
+
+			<!-- ischecked isn't a built in function, so we'll create it in the JS below. -->
+			<label>
+				<input type="checkbox" x-ischecked="show"> Show the kittens!
+			</label>
+
+			<img src="https://i.imgur.com/bpoIa46.jpg" x-show="show">
+		</div>
+	</main>
+	<pre>
+&lt;div class=&quot;template&quot;&gt;
+
+	&lt;!-- ischecked isn't a built in function, so we'll create it in the JS below. --&gt;
+	&lt;label&gt;
+		&lt;input type=&quot;checkbox&quot; x-ischecked=&quot;show&quot;&gt; Show the kittens!
+	&lt;/label&gt;
+
+	&lt;img src=&quot;https://i.imgur.com/bpoIa46.jpg&quot; x-show=&quot;show&quot;&gt;
+&lt;/div&gt;</pre>
+	<pre>
+XElement.prototype.extend.ischecked = function () {
+
+	this.build = function (group, xel) {
+
+		xel.el.onchange = function () {
+			xel.XView.set(group, xel.el.checked);
+		};
+	}
+}
+
+var view = new XView(".template");
+
+view.render();</pre>
+	<!-- Custom JS that makes the magic happen -->
+	<script>
+
+		/**
+		 * Here we create the ischecked function, so that it can be used in templates.
+		 * First we set a function to `XElement.prototype.extend.ischecked`. This function is unique to each element that uses ischecked, and can store data.
+		 * A custom function has 2 main methods: build and render. Each is called at their respective points in the template creation process.
+		 * Build is only called once when the template is created, while render is called whenever the element re-renders.
+		 * 
+		 * Each method has 2 arguments passed to it when called:
+		 *  - "group" the value of the tempalte attribute(in this case "x-ischecked")
+		 *  - "xel" the XElement attached to the element with the attribute
+		 * 
+		 * Below we simply attach an event listener to the element during the build stage. When the checkbox changes, we simply set the checked property value
+		 * to the defined group in the XView.
+		 * This then triggers a rerender of the p element, which is hidden/shown based upon the value of "show".
+		 */
+		XElement.prototype.extend.ischecked = function () {
+
+			this.build = function (group, xel) {
+
+				xel.el.onchange = function () {
+					xel.XView.set(group, xel.el.checked);
+				};
+			}
+		}
+
+		// Create a new view
+		var view = new XView(".template");
+
+		// Render the test data into the view
+		view.render();
+	</script>
+</body>
+
+</html>

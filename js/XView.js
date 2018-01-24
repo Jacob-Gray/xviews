@@ -123,7 +123,7 @@ XView.prototype.set = function (key, value) {
 	this._renderVersion++;
 
 	if (this.watching[key]) this.watching[key].forEach(function (fn) {
-		fn();
+		fn(value);
 	}.bind(this));
 }
 

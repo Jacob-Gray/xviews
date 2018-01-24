@@ -7,16 +7,11 @@
 	<!-- Import library -->
 	<script src="../lib/xview.full.js"></script>
 
+	<link rel="stylesheet" href="./demos.css">
+
+
 	<!-- Throw in a few styles -->
 	<style>
-		body,
-		html {
-			margin: 0;
-			background: #222021;
-			color: white;
-			font-family: sans-serif;
-		}
-
 		.test {
 			padding: 10px;
 		}
@@ -72,7 +67,7 @@
 			margin-bottom: 10px;
 		}
 
-		p {
+		main p {
 			color: rgba(255, 255, 255, 0.5);
 			flex-grow: 1;
 		}
@@ -109,30 +104,89 @@
 </head>
 
 <body>
-	<div class="template">
 
-		<header>
-			<h1 x-show="search">Top results matching "${search}"</h1>
-			<h1 x-show="!search">All posts</h1>
-			<input x-value="search" placeholder="Search">
-		</header>
+	<section>
+		<p>
+			This is a more complex demo that uses the <code>XView.watch</code> method to implement a basic search of a foreach template. The actual JS that implements the search is 
+			fairly unimportant in this case. Notice the use of <code>x-show</code> and <code>x-foreach</code> in the template. Also note the <code>${i}</code> variable in <code>.tag</code>.
+			<code>i</code> is a variable defined in foreach loops, that shows the index of the current element.
+		</p>
+	</section>
+	<main class="demo-area">
+		<div class="template">
 
-		<ul>
-			<li class="searchResults" x-foreach="results">
-				<h3 class="headline">${title} -
-					<span class="author">by ${author}</span>
-				</h3>
-				<div class="data">
-					<p>${desc}</p>
-					<div class="tags">
-						<span x-foreach="tags" class="tag tag-${i}">${base}</span>
+			<header>
+				<h1 x-show="search">Top results matching "${search}"</h1>
+				<h1 x-show="!search">All posts</h1>
+				<input x-value="search" placeholder="Search">
+			</header>
+
+			<ul>
+				<li class="searchResults" x-foreach="results">
+					<h3 class="headline">${title} -
+						<span class="author">by ${author}</span>
+					</h3>
+					<div class="data">
+						<p>${desc}</p>
+						<div class="tags">
+							<span x-foreach="tags" class="tag tag-${i}">${base}</span>
+						</div>
 					</div>
-				</div>
-			</li>
-		</ul>
+				</li>
+			</ul>
 
-		<div x-show="!results" class="noResults">No Results :(</div>
-	</div>
+			<div x-show="!results" class="noResults">No Results :(</div>
+		</div>
+	</main>
+	<pre>
+&lt;div class=&quot;template&quot;&gt;
+
+	&lt;header&gt;
+		&lt;h1 x-show=&quot;search&quot;&gt;Top results matching &quot;${search}&quot;&lt;/h1&gt;
+		&lt;h1 x-show=&quot;!search&quot;&gt;All posts&lt;/h1&gt;
+		&lt;input x-value=&quot;search&quot; placeholder=&quot;Search&quot;&gt;
+	&lt;/header&gt;
+
+	&lt;ul&gt;
+		&lt;li class=&quot;searchResults&quot; x-foreach=&quot;results&quot;&gt;
+			&lt;h3 class=&quot;headline&quot;&gt;${title} -
+				&lt;span class=&quot;author&quot;&gt;by ${author}&lt;/span&gt;
+			&lt;/h3&gt;
+			&lt;div class=&quot;data&quot;&gt;
+				&lt;p&gt;${desc}&lt;/p&gt;
+				&lt;div class=&quot;tags&quot;&gt;
+					&lt;span x-foreach=&quot;tags&quot; class=&quot;tag tag-${i}&quot;&gt;${base}&lt;/span&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/li&gt;
+	&lt;/ul&gt;
+
+	&lt;div x-show=&quot;!results&quot; class=&quot;noResults&quot;&gt;No Results :(&lt;/div&gt;
+&lt;/div&gt;</pre>
+	<pre>
+var view = new XView(".template");
+
+view.render({
+	results: testData
+});
+
+view.watch("search", function () {
+
+	var filter = view.data.search.toLowerCase(),
+		res = testData.filter(function (item) {
+
+			for (var key in item) {
+				if (!Array.isArray(item[key]) && item[key].toLowerCase().indexOf(filter) > -1) return true;
+				else if (Array.isArray(item[key])) return item[key].some(function (str) {
+					return str.toLowerCase().indexOf(filter) > -1
+				});
+			}
+
+			return false;
+		});
+
+	view.set("results", res);
+});</pre>
 
 	<!-- Custom JS that makes the magic happen -->
 	<script>

@@ -6,29 +6,42 @@
 
 	<!-- Import library -->
 	<script src="../lib/xview.full.js"></script>
+	<link rel="stylesheet" href="./demos.css">
 
-	<!-- Throw in a few styles -->
-	<style>
-		body,
-		html {
-			margin: 0;
-			background: #222021;
-			color: white;
-			font-family: sans-serif;
-		}
-	</style>
 </head>
 
 <body>
-	<p>Top names in the US:</p>
-	<ul class="template">
-		<li x-foreach="list">
-			${desc}
-			<ol>
-				<li x-foreach="names">${base}</li>
-			</ol>
-		</li>
-	</ul>
+	<section>
+		<p>
+			Super simple demo showing how to use foreach loops, and the ability to use foreach loops inside one another
+		</p>
+	</section>
+	<main class="demo-area">
+		<p>Top names in the US:</p>
+		<ul class="template">
+			<li x-foreach="list">
+				${desc}
+				<ol>
+					<li x-foreach="names">${base}</li>
+				</ol>
+			</li>
+		</ul>
+	</main>
+	<pre>
+&lt;ul class=&quot;template&quot;&gt;
+	&lt;li x-foreach=&quot;list&quot;&gt;
+		${desc}
+		&lt;ol&gt;
+			&lt;li x-foreach=&quot;names&quot;&gt;${base}&lt;/li&gt;
+		&lt;/ol&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;</pre>
+	<pre>
+var view = new XView(".template");
+
+view.render({
+	list: testData
+});</pre>
 
 	<!-- Custom JS that makes the magic happen -->
 	<script>
