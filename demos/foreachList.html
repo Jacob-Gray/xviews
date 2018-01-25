@@ -19,6 +19,7 @@
 	<main class="demo-area">
 		<p>Top names in the US:</p>
 		<ul class="template">
+			${test}
 			<li x-foreach="list">
 				${desc}
 				<ol>
@@ -59,7 +60,8 @@ view.render({
 
 		// Render the test data into the view
 		view.render({
-			list: testData
+			list: testData,
+			test: false
 		});
 	</script>
 </body>
