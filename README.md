@@ -1,4 +1,4 @@
-#XView.js
+# XView.js
 XView.js is a lightweight in-place view and templating JS library. The main point of XView is to allow easy to use, extendable view rendering that doesn't require any preprocessing.
 
 With XView you can dynamically render data into the DOM, while preserving the elements. For example, consider this HTML:
